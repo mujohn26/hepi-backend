@@ -203,7 +203,7 @@ class mailer {
                 <div class="Email-wrapper_body_name">Hi ${userName} <${email}>!</div>
                 <div class="Email-wrapper_body_message">We are excited to have you on Hospital Escort Patient Initiative (HEPI). <br> Your HEPI request has received succesfully <br>
     
-                <br>  </br>  </br>  <span id="thanks" style="margin-top: 20px;">Our Admin will contact you for fulther information <br> Keep in touch, Stay Safe. <br>:</span> 
+                <br>  </br>  </br>  <span id="thanks" style="margin-top: 20px;">Our Admin will contact you for further information <br> Keep in touch, Stay Safe. <br>:</span> 
                  </div>
             </div>
    

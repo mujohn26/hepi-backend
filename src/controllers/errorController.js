@@ -3,9 +3,7 @@ import AppError from "../utils/appError";
 
 // const handleTokenExpErr = () =>
 //   new AppError(401, "Your token is expired please login again!");
-const handleDataDuplication = () =>
-  new AppError(409, "Email already exist");
-
+const handleDataDuplication = () => new AppError(409, "Email already exist");
 
 const sendProdErr = (err, res) => {
   // Operational, known error: send message to client
@@ -42,7 +40,8 @@ export default (err, req, res, next) => {
   if (process.env.NODE_ENV.startsWith("production")) {
     let error = { ...err };
 
-    if (error.name === "SequelizeUniqueConstraintError") error = handleDataDuplication();
+    if (error.name === "SequelizeUniqueConstraintError")
+      error = handleDataDuplication();
 
     sendProdErr(error, res);
   } else if (process.env.NODE_ENV === "development") {

@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     password: { type: DataTypes.STRING, allowNull: false },
     tel: { type: DataTypes.STRING, allowNull: false, unique: true },
     role: { type: DataTypes.STRING, allowNull: false, defaultValue: 'Admin' },
-    status: { type: DataTypes.STRING, allowNull: false, defaultValue: 'Active' },
+    status: { type: DataTypes.STRING, allowNull: false, defaultValue: 'pending' },
   }, {});
   admin.associate = function (models) {
     // associations can be defined here
