@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     email: { type: DataTypes.STRING, allowNull: false, unique: true },
     password: { type: DataTypes.STRING },
     tel: { type: DataTypes.STRING, allowNull: false, unique: true },
-    role: { type: DataTypes.STRING, allowNull: false, defaultValue: 'Client' },
-    status: { type: DataTypes.STRING, allowNull: false, defaultValue: 'Inactive' },
+    role: { type: DataTypes.STRING, allowNull: false, defaultValue: 'client' },
+    status: { type: DataTypes.STRING, allowNull: false, defaultValue: 'inactive' },
 
     invitedBy: DataTypes.STRING,
     nationality: DataTypes.STRING
