@@ -77,7 +77,7 @@ export const createDoctor = catchAsyncErr(async (req, res, next) => {
   //   await sendMessage(firstName, tel);
 
   res.status(201).json({
-    message: "Admin Created success",
+    message: "Doctor Created success",
     data: newUserDoctor,
     token: token,
   });

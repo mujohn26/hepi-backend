@@ -35,7 +35,7 @@ export const createAdmin = catchAsyncErr(async (req, res, next) => {
   };
 
   const newUserAdmin = await db.admin.create(newAdmin);
-console.log('=-=-=-=-=-=-=-=', newUserAdmin)
+// console.log('=-=-=-=-=-=-=-=', newUserAdmin)
   const token = generateAuthToken({
     id: newAdmin.id,
     adminEmail: newUserAdmin.email,
