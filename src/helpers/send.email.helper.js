@@ -1,6 +1,6 @@
-import nodemailer from 'nodemailer';
+import nodemailer from "nodemailer";
 
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 
 dotenv.config();
 
@@ -146,8 +146,15 @@ class mailer {
     return view;
   }
 
-
-   static activateAccountView(email, userName, ammountToPay,accountName1,accountName2,accountCode1,accountCode2) {
+  static activateAccountView(
+    email,
+    userName,
+    ammountToPay,
+    accountName1,
+    accountName2,
+    accountCode1,
+    accountCode2
+  ) {
     const view = `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -213,31 +220,94 @@ class mailer {
     return view;
   }
 
-  /**       
- * This function helps to send email
- * @param {string} to this is a receiver email
- * @param {string} subject this is the subject of email to be send
- * @param {string} views this is html tages  that make body of email
- * @returns {null} return nothing
- */
+  static bookingRequestEmail(email, firstName) {
+    const view = `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <style>
+        .Email-wrapper{
+            display:grid;
+            width: 90%;
+            min-height: 50px;
+            margin: 10px;
+           
+        }
+        .Email-wrapper_log{
+            justify-self: start;
+            margin: 10px;
+            color: blue;
+            font-size:40px;
+        }
+        .Email-wrapper_button{
+            background-color: #0094FF;
+            width: 40%;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+        .Email-wrapper_button:hover {
+          cursor: pointer;
+        }
+        .Email-wrapper_body_message , .Email-wrapper_body_name{
+        align-self: center; 
+       margin-left: 25px;
+       margin: 10px;
+       color: gray;
+        }
+        .Email-wrapper_body_name{
+         margin-bottom: 20px;
+         margin: 10px;
+        }
+       #thanks{
+            margin-top: 10px;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="Email-wrapper">
+            <div class="Email-wrapper_log">HEPi Ltd</div>
+            <div class="Email-wrapper_body">
+                <div class="Email-wrapper_body_name">Dear, ${firstName}</div>    
+                <br>  <span id="thanks" style="margin-top: 20px;"> Thanks for booking service with Hospital Escort Patients Initiative (Hepi) <br>  Your booking request has been received.one of our team is going to contact you right now for further process. <br><br> Stay safe. <br><br> <a>www.rwandahospitalescort.com </a></span> 
+                 </div>
+            </div>
+   
+        </div>
+        </body>
+        </html>`;
+    return view;
+  }
+
+  /**
+   * This function helps to send email
+   * @param {string} to this is a receiver email
+   * @param {string} subject this is the subject of email to be send
+   * @param {string} views this is html tages  that make body of email
+   * @returns {null} return nothing
+   */
   static async sendEmail(to, subject, views) {
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service: "gmail",
       auth: {
         user: process.env.SENDER_EMAIL,
-        pass: process.env.EMAIL_PASS
-      }
+        pass: process.env.EMAIL_PASS,
+      },
     });
 
-
     /**
-   * This is an object which include email data (mail option)
-   */
+     * This is an object which include email data (mail option)
+     */
     const mailOptions = {
       from: process.env.SENDER_EMAIL,
       to,
       subject,
-      html: views
+      html: views,
     };
 
     await transporter.sendMail(mailOptions);

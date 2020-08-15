@@ -8,6 +8,7 @@ import mailer from "../helpers/send.email.helper";
 import { sendMessage } from "../utils/sendSMS";
 import response from "../helpers/response";
 import staffServices from "../services/staff.services";
+import servicesService from '../services/services.service';
 export const createDoctor = catchAsyncErr(async (req, res, next) => {
   let {
     firstName,
@@ -45,16 +46,10 @@ export const createDoctor = catchAsyncErr(async (req, res, next) => {
     return next(new appError(400, "Please fill all data cleary!"));
   }
 
-  // if (password != rePassword) {
-  //     return next(new appError(400, 'Please try again password does not match'));
-  // }
-
-  // password = await encryptPassword(password);
   const newDoctor = {
     firstName,
     lastName,
     email,
-    // password,
     tel,
     nationality,
     educationLevel,
@@ -62,19 +57,26 @@ export const createDoctor = catchAsyncErr(async (req, res, next) => {
     locProvince,
     locDistrict,
     locSector,
-    bio,
+    bio
   };
 
   const newUserDoctor = await db.doctor.create(newDoctor);
-
+  const {services} =  req.body;
+  services.map(async(service,index)=>{
+    const data={
+        serviceName:service.serviceName,
+        staffId:newUserDoctor.id,
+    }
+    await db.services.create(data)
+  })
   const token = generateAuthToken({
     id: newUserDoctor.id,
     doctorEmail: newUserDoctor.email,
   });
 
-  //   const emailView = mailer.welcomeDoctorView(email, firstName);
-  //   mailer.sendEmail(email, "Welcome email", emailView);
-  //   await sendMessage(firstName, tel);
+    const emailView = mailer.welcomeDoctorView(email, firstName);
+    mailer.sendEmail(email, "Welcome email", emailView);
+    await sendMessage(firstName, tel);
 
   res.status(201).json({
     message: "Admin Created success",
@@ -139,3 +141,23 @@ export const getAllStaffById = async (req, res) => {
     return response.errorMessage(res, error.message, 500);
   }
 };
+
+export const getStaffByService = async (req, res) => {
+    try {
+      const {serviceName} = req.body;
+      const services = await servicesService.getServicesByName(serviceName);
+      const staffs = [];
+      services.map((service, index)=>{
+          staffs.push(service.doctor.dataValues)
+          
+        })
+      return response.successMessage(
+        res,
+        `Staff was activated successfully by ${serviceName}`,
+        200,
+        staffs
+      );
+    } catch (error) {
+      return response.errorMessage(res, error.message, 500);
+    }
+  };
