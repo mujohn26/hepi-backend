@@ -1,8 +1,10 @@
 'use strict';
+var Sequelize      = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   const services = sequelize.define('services', {
-    serviceName: DataTypes.STRING,
-    staffId: DataTypes.INTEGER
+    serviceName: Sequelize.STRING,
+    staffId: Sequelize.INTEGER
   }, {});
   services.associate = function(models) {
     // associations can be defined here

@@ -1,9 +1,10 @@
+/* eslint-disable require-jsdoc */
 import jwt from 'jsonwebtoken';
 import response from './response';
 import UserServices from '../services/user.services';
 
 class verifyTokens {
-  static verifyAllTokens = async (req, res, next, token) => {
+  static async verifyAllTokens(req, res, next, token) {
     if (!token) {
       return response.errorMessage(
         res,
@@ -13,13 +14,11 @@ class verifyTokens {
     }
     try {
       const decodedToken = jwt.verify(token, process.env.SECRETEKEY);
-
       const user = await UserServices.findAdminByEmail(
         decodedToken.payload.email,
       );
       decodedToken.token = token;
       if (user === undefined) {
-
         return response.errorMessage(
           res,
           'You provided the invalid token!',
@@ -36,6 +35,6 @@ class verifyTokens {
     } catch (error) {
       return response.errorMessage(res, 'You provided the invalid token!', 401);
     }
-  };
+  }
 }
 export default verifyTokens;

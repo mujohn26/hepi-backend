@@ -28,7 +28,6 @@ export const createDoctor = catchAsyncErr(async (req, res, next) => {
     // extra,
     // rePassword
   } = req.body;
-console.log('=-=-=--=-=->>', photo);
   if (!validator.isEmail(email)) {
     return next(new appError(400, 'Please your email is not valid!'));
   }
@@ -128,6 +127,21 @@ export const getAllStaffs = async (req, res) => {
   }
 };
 
+export const getAllStaffsWeb = async (req, res) => {
+  try {
+    const status = "active"
+    const staffs = await staffServices.getRequestByStatus(status);
+    return response.successMessage(
+      res,
+      'Active staffs were retrieved successfully',
+      200,
+      staffs
+    );
+  } catch (error) {
+    return response.errorMessage(res, error.message, 500);
+  }
+};
+
 export const getAllStaffById = async (req, res) => {
   try {
     const id = req.params.staffId;
@@ -156,6 +170,22 @@ export const getStaffByService = async (req, res) => {
       `Staff was activated successfully by ${serviceName}`,
       200,
       staffs
+    );
+  } catch (error) {
+    return response.errorMessage(res, error.message, 500);
+  }
+};
+
+
+export const getDoctorByStatus = async (req, res) => {
+  try {
+    const { status } = req.params;
+    const requests = await staffServices.getRequestByStatus(status);
+    return response.successMessage(
+      res,
+      'Staffs was retrieved successfully',
+      200,
+      requests
     );
   } catch (error) {
     return response.errorMessage(res, error.message, 500);

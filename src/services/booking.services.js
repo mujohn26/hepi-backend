@@ -1,12 +1,14 @@
+/* eslint-disable require-jsdoc */
 
-import { emit } from "nodemon";
-import db from "../database/models";
+import { emit } from 'nodemon';
+import db from '../database/models';
+
 class BookingServices {
   static makeRequest(data) {
     try {
       const booking = db.bookings.create(data);
       if (!booking) return null;
-      return booking; 
+      return booking;
     } catch (error) {
       return null;
     }
@@ -16,11 +18,11 @@ class BookingServices {
     try {
       const staff = db.bookings.findOne({
         where: {
-         id
+          id
         },
       });
       if (!staff) return null;
-      return staff; 
+      return staff;
     } catch (error) {
       return null;
     }
@@ -28,7 +30,7 @@ class BookingServices {
 
   static async acceptBookingRequest(id) {
     try {
-      return await db.bookings.update({ status: "in-progress" }, { where: { id } });
+      return await db.bookings.update({ status: 'in-progress' }, { where: { id } });
     } catch (error) {
       return null;
     }
@@ -36,7 +38,7 @@ class BookingServices {
 
   static async finishBookingRequest(id) {
     try {
-      return await db.bookings.update({ status: "finished" }, { where: { id } });
+      return await db.bookings.update({ status: 'finished' }, { where: { id } });
     } catch (error) {
       return null;
     }
@@ -46,11 +48,11 @@ class BookingServices {
     try {
       const staff = db.bookings.findAll({
         where: {
-         status
+          status
         },
       });
       if (!staff) return null;
-      return staff; 
+      return staff;
     } catch (error) {
       return null;
     }
@@ -64,7 +66,7 @@ class BookingServices {
         },
       });
       if (!staff) return null;
-      return staff; 
+      return staff;
     } catch (error) {
       return null;
     }
@@ -74,7 +76,31 @@ class BookingServices {
     try {
       const requests = db.bookings.findAll();
       if (!requests) return null;
-      return requests; 
+      return requests;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  static findBookingRequestById(id) {
+    try {
+      const staff = db.bookings.findOne({
+        where: {
+          id
+        },
+      });
+      if (!staff) return null;
+      return staff;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  static createAgentCash(data) {
+    try {
+      const agentCash = db.agentCash.create(data);
+      if (!agentCash) return null;
+      return agentCash;
     } catch (error) {
       return null;
     }

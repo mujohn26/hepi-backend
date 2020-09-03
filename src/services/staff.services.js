@@ -1,4 +1,4 @@
-import { emit } from 'nodemon';
+/* eslint-disable require-jsdoc */
 import db from '../database/models';
 
 class StaffServices {
@@ -35,6 +35,21 @@ class StaffServices {
   static async getAllStaffs() {
     try {
       return await db.doctor.findAll();
+    } catch (error) {
+      return null;
+    }
+  }
+
+  
+  static getRequestByStatus(status) {
+    try {
+      const staff = db.doctor.findAll({
+        where: {
+          status
+        },
+      });
+      if (!staff) return null;
+      return staff;
     } catch (error) {
       return null;
     }

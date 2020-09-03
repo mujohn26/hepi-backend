@@ -1,12 +1,13 @@
+var Sequelize      = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   const admin = sequelize.define('admin', {
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: { type: DataTypes.STRING, allowNull: false, unique: true },
-    password: { type: DataTypes.STRING, allowNull: false },
-    tel: { type: DataTypes.STRING, allowNull: false, unique: true },
-    role: { type: DataTypes.STRING, allowNull: false, defaultValue: 'Admin' },
-    status: { type: DataTypes.STRING, allowNull: false, defaultValue: 'pending' },
+    firstName: Sequelize.STRING,
+    lastName: Sequelize.STRING,
+    email: { type: Sequelize.STRING, allowNull: false, unique: true },
+    password: { type: Sequelize.STRING, allowNull: false },
+    tel: { type: Sequelize.STRING, allowNull: false, unique: true },
+    role: { type: Sequelize.STRING, allowNull: false, defaultValue: 'Admin' },
+    status: { type: Sequelize.STRING, allowNull: false, defaultValue: 'active' },
   }, {});
   admin.associate = function (models) {
     // associations can be defined here

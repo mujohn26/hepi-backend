@@ -9,6 +9,10 @@ const checkEmailpassword = async (req, res) => {
     const status = 404;
     return response.errorMessage(res, 'Could not found the user in our system', status);
   }
+  if (user.dataValues.status !== 'active') {
+    const status = 404;
+    return response.errorMessage(res, 'Ooops your account is not active please contact admin to activate', status);
+  }
   if (!decryptPassword(req.body.password, user.password)) {
     const status = 401;
     return response.errorMessage(

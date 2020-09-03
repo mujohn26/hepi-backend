@@ -32,6 +32,9 @@ module.exports = {
       service: {
         type: Sequelize.STRING,
       },
+      agentCode: {
+        type: Sequelize.STRING,
+      },
       proposedDoctorId: {
         type: Sequelize.INTEGER,
         allowNull: true,
@@ -55,6 +58,18 @@ module.exports = {
       },
       paymentMethod: {
         type: Sequelize.STRING,
+      },
+      duration: {
+        type: Sequelize.STRING,
+      },
+      hours: {
+        type: Sequelize.INTEGER,
+      },
+      price: {
+        type: Sequelize.INTEGER,
+      },
+      days: {
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
