@@ -1,9 +1,10 @@
-import { emit } from "nodemon";
-import db from "../database/models";
+import { emit } from 'nodemon';
+import db from '../database/models';
+
 class StaffServices {
   static async activateStaff(id) {
     try {
-      return await db.doctor.update({ status: "active" }, { where: { id } });
+      return await db.doctor.update({ status: 'active' }, { where: { id } });
     } catch (error) {
       return null;
     }
@@ -11,7 +12,7 @@ class StaffServices {
 
   static async deactivateStaff(id) {
     try {
-      return await db.doctor.update({ status: "inactive" }, { where: { id } });
+      return await db.doctor.update({ status: 'inactive' }, { where: { id } });
     } catch (error) {
       return null;
     }
@@ -21,11 +22,11 @@ class StaffServices {
     try {
       const staff = db.doctor.findOne({
         where: {
-         id
+          id
         },
       });
       if (!staff) return null;
-      return staff; 
+      return staff;
     } catch (error) {
       return null;
     }

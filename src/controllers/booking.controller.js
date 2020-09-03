@@ -17,6 +17,7 @@ class BookingController {
         startDate,
         endDate,
       } = req.body;
+
       const data = {
         firstName,
         lastName,

@@ -6,7 +6,7 @@ import app from './app';
 config(); // This enables dotenv configulations
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 const server = app.listen(port, () => console.log('info', `Server is running on http://localhost:${port}`));
 
 export default app;

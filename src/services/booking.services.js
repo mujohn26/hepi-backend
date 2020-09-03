@@ -44,7 +44,7 @@ class BookingServices {
 
   static getRequestByStatus(status) {
     try {
-      const staff = db.bookings.findOne({
+      const staff = db.bookings.findAll({
         where: {
          status
         },

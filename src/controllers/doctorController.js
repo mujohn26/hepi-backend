@@ -1,16 +1,17 @@
-import db from "../database/models";
-import catchAsyncErr from "../utils/catchAsyncError";
-import appError from "../utils/appError";
-import { encryptPassword, decryptPassword } from "../helpers/securePassword";
-import { generateAuthToken, dataFromToken } from "../helpers/tokens";
-import validator from "validator";
-import mailer from "../helpers/send.email.helper";
-import { sendMessage } from "../utils/sendSMS";
-import response from "../helpers/response";
-import staffServices from "../services/staff.services";
+import validator from 'validator';
+import db from '../database/models';
+import catchAsyncErr from '../utils/catchAsyncError';
+import appError from '../utils/appError';
+import { encryptPassword, decryptPassword } from '../helpers/securePassword';
+import { generateAuthToken, dataFromToken } from '../helpers/tokens';
+import mailer from '../helpers/send.email.helper';
+import { sendMessage } from '../utils/sendSMS';
+import response from '../helpers/response';
+import staffServices from '../services/staff.services';
 import servicesService from '../services/services.service';
+
 export const createDoctor = catchAsyncErr(async (req, res, next) => {
-  let {
+  const {
     firstName,
     lastName,
     email,
@@ -23,27 +24,27 @@ export const createDoctor = catchAsyncErr(async (req, res, next) => {
     locDistrict,
     locSector,
     bio,
+    photo
     // extra,
     // rePassword
   } = req.body;
-
+console.log('=-=-=--=-=->>', photo);
   if (!validator.isEmail(email)) {
-    return next(new appError(400, "Please your email is not valid!"));
+    return next(new appError(400, 'Please your email is not valid!'));
   }
 
   if (
-    firstName === "" ||
-    lastName === "" ||
-    email === "" ||
-    tel === "" ||
-    nationality === "" ||
-    educationLevel === "" ||
-    licence === "" ||
-    locProvince === "" ||
-    locDistrict === "" ||
-    locSector === ""
+    firstName === ''
+    || lastName === ''
+    || email === ''
+    || tel === ''
+    || educationLevel === ''
+    || licence === ''
+    || locProvince === ''
+    || locDistrict === ''
+    || locSector === ''
   ) {
-    return next(new appError(400, "Please fill all data cleary!"));
+    return next(new appError(400, 'Please fill all data cleary!'));
   }
 
   const newDoctor = {
@@ -51,37 +52,37 @@ export const createDoctor = catchAsyncErr(async (req, res, next) => {
     lastName,
     email,
     tel,
-    nationality,
     educationLevel,
     licence,
     locProvince,
     locDistrict,
     locSector,
-    bio
+    bio,
+    photo
   };
 
   const newUserDoctor = await db.doctor.create(newDoctor);
-  const {services} =  req.body;
-  services.map(async(service,index)=>{
-    const data={
-        serviceName:service.serviceName,
-        staffId:newUserDoctor.id,
-    }
-    await db.services.create(data)
-  })
+  const { services } = req.body;
+  services.map(async (service, index) => {
+    const data = {
+      serviceName: service.serviceName,
+      staffId: newUserDoctor.id,
+    };
+    await db.services.create(data);
+  });
   const token = generateAuthToken({
     id: newUserDoctor.id,
     doctorEmail: newUserDoctor.email,
   });
 
-    const emailView = mailer.welcomeDoctorView(email, firstName);
-    mailer.sendEmail(email, "Welcome email", emailView);
-    await sendMessage(firstName, tel);
+  const emailView = mailer.welcomeDoctorView(email, firstName);
+  mailer.sendEmail(email, 'Welcome email', emailView);
+  await sendMessage(firstName, tel);
 
   res.status(201).json({
-    message: "Admin Created success",
+    message: 'Admin Created success',
     data: newUserDoctor,
-    token: token,
+    token,
   });
 });
 
@@ -91,7 +92,7 @@ export const activateStaff = async (req, res) => {
     const updated = await staffServices.activateStaff(id);
     return response.successMessage(
       res,
-      "Staff was activated successfully",
+      'Staff was activated successfully',
       200
     );
   } catch (error) {
@@ -105,7 +106,7 @@ export const deactivateStaff = async (req, res) => {
     const updated = await staffServices.deactivateStaff(id);
     return response.successMessage(
       res,
-      "Staff was activated successfully",
+      'Staff was activated successfully',
       200
     );
   } catch (error) {
@@ -118,7 +119,7 @@ export const getAllStaffs = async (req, res) => {
     const staffs = await staffServices.getAllStaffs();
     return response.successMessage(
       res,
-      "Staff was activated successfully",
+      'Staff was activated successfully',
       200,
       staffs
     );
@@ -133,7 +134,7 @@ export const getAllStaffById = async (req, res) => {
     const staff = await staffServices.getStaffById(id);
     return response.successMessage(
       res,
-      "Staff was activated successfully",
+      'Staff was activated successfully',
       200,
       staff
     );
@@ -143,21 +144,20 @@ export const getAllStaffById = async (req, res) => {
 };
 
 export const getStaffByService = async (req, res) => {
-    try {
-      const {serviceName} = req.body;
-      const services = await servicesService.getServicesByName(serviceName);
-      const staffs = [];
-      services.map((service, index)=>{
-          staffs.push(service.doctor.dataValues)
-          
-        })
-      return response.successMessage(
-        res,
-        `Staff was activated successfully by ${serviceName}`,
-        200,
-        staffs
-      );
-    } catch (error) {
-      return response.errorMessage(res, error.message, 500);
-    }
-  };
+  try {
+    const { serviceName } = req.body;
+    const services = await servicesService.getServicesByName(serviceName);
+    const staffs = [];
+    services.map((service, index) => {
+      staffs.push(service.doctor.dataValues);
+    });
+    return response.successMessage(
+      res,
+      `Staff was activated successfully by ${serviceName}`,
+      200,
+      staffs
+    );
+  } catch (error) {
+    return response.errorMessage(res, error.message, 500);
+  }
+};
