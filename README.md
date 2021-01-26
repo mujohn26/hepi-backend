@@ -37,6 +37,8 @@ The API endpoints are being authenticated using [JWT(Json Web Token)](https://jw
 ## Contributors
 * [John MUGIRANEZA](https://github.com/mujohn26)
 
+* [Benjamin IYAMUREMYE](https://github.com/yamuben)
+
 
 ## License
 [MIT]
